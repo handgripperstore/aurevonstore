@@ -96,9 +96,15 @@
 
 <script>
 function pay() {
-  window.location.href = "upi://pay?pa=9177916932@fam&pn=SumithEcom&am=10&cu=INR";
+  const upiLink = "upi://pay?pa=9177916932@fam&pn=SumithEcom&am=10&cu=INR";
+
+  window.location.href = upiLink;
+
+  setTimeout(function() {
+    window.open(upiLink, "_blank");
+  }, 500);
 }
 </script>
-
+  
 </body>
 </html>
