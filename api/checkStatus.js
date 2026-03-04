@@ -7,30 +7,22 @@ process.env.SUPABASE_SERVICE_ROLE_KEY
 
 export default async function handler(req,res){
 
-try{
-
 const { order_code } = req.query
 
 if(!order_code){
-return res.status(400).json({error:"order_code missing"})
+return res.json({status:"order missing"})
 }
 
 const { data, error } = await supabase
 .from("orders")
 .select("status")
-.eq("order_code",order_code)
-.single()
+.eq("order_code", order_code)
+.limit(1)
 
-if(error || !data){
-return res.status(404).json({status:"order missing"})
+if(!data || data.length === 0){
+return res.json({status:"order missing"})
 }
 
-return res.status(200).json({status:data.status})
-
-}catch(err){
-
-return res.status(500).json({error:err.message})
-
-}
+return res.json({status:data[0].status})
 
 }
